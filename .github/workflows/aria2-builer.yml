@@ -27,13 +27,13 @@ jobs:
         PLATFORMS: [amd64, arm64, armhf, i386]
         include:
         - PLATFORMS: amd64
-          BUILDER_IMAGE: debian:11
+          BUILDER_IMAGE: debian:12
           BUILD_SCRIPT: aria2-gnu-linux-build-amd64.sh
         - PLATFORMS: arm64
-          BUILDER_IMAGE: debian:11
+          BUILDER_IMAGE: debian:12
           BUILD_SCRIPT: aria2-gnu-linux-cross-build-arm64.sh
         - PLATFORMS: armhf
-          BUILDER_IMAGE: ubuntu:16.04
+          BUILDER_IMAGE: ubuntu:20.04
           BUILD_SCRIPT: aria2-gnu-linux-cross-build-armhf.sh
         - PLATFORMS: i386
           BUILDER_IMAGE: debian:10
@@ -57,7 +57,7 @@ jobs:
           --build-arg BUILDER_IMAGE \
           --build-arg BUILD_SCRIPT \
           --platform=local \
-          -o ./output . \
+         # -o ./output . \
           2>&1 | tee build.log
 
     - name: Output Error Log
@@ -66,10 +66,12 @@ jobs:
 
     - name: Check Version
       run: |
-        tar xzvf ./output/aria2*.tar.gz
-        file aria2c 2>&1 | tee ./output/file-type-${{ matrix.PLATFORMS }}.txt
-        ./aria2c -v 2>&1 | tee ./output/version-${{ matrix.PLATFORMS }}.txt
-
+  #      tar xzvf ./output/aria2*.tar.gz
+  #      file aria2c 2>&1 | tee ./output/file-type-${{ matrix.PLATFORMS }}.txt
+  #      ./aria2c -v 2>&1 | tee ./output/version-${{ matrix.PLATFORMS }}.txt
+        tar xzvf ./aria2*.tar.gz
+        file aria2c 2>&1 | tee ./file-type-${{ matrix.PLATFORMS }}.txt
+        ./aria2c -v 2>&1 | tee ./version-${{ matrix.PLATFORMS }}.txt
     - name: Upload artifact
       uses: actions/upload-artifact@master
       with:
