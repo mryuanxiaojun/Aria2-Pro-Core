@@ -57,7 +57,6 @@ jobs:
           --build-arg BUILDER_IMAGE \
           --build-arg BUILD_SCRIPT \
           --platform=local \
-         # -o ./output . \
           2>&1 | tee build.log
 
     - name: Output Error Log
